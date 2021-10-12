@@ -17,6 +17,19 @@
 }
 
 .userNames {
-    height: 80%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 70%;
     font-size: 12px;
+}
+
+.chatInputWrapper {
+    height: 10%;
+    display: flex;
+}
+
+.chatInput {
+    height: 10%;
 }
