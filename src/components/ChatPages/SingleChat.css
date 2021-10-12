@@ -1,5 +1,6 @@
 .singleChat {
     display: flex;
+    flex: 0 0 auto;
     flex-direction: column;
     border-right: 2px black solid;
     border-left: 2px black solid;
