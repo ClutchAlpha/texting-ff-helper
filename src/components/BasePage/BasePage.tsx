@@ -2,16 +2,17 @@ import React from 'react'
 import './BasePage.css'
 import DisplaySection from "../DisplaySection/DisplaySection";
 import ChatPages from "../ChatPages/ChatPages";
+import {Chat} from "../../types/utils";
 
 type BasePageProps = {
-  title?: string
+  chats: Chat[]
 }
 
-const BasePage: React.FC<BasePageProps> = ({title}) => {
+const BasePage: React.FC<BasePageProps> = ({chats}) => {
   return (
     <div className={'basePage'}>
       <DisplaySection />
-      <ChatPages />
+      <ChatPages chats={chats}/>
     </div>
   )
 }
