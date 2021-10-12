@@ -1,5 +1,7 @@
 import React from 'react'
 import './BasePage.css'
+import DisplaySection from "../DisplaySection/DisplaySection";
+import ChatPages from "../ChatPages/ChatPages";
 
 type BasePageProps = {
   title?: string
@@ -8,7 +10,8 @@ type BasePageProps = {
 const BasePage: React.FC<BasePageProps> = ({title}) => {
   return (
     <div className={'basePage'}>
-      {title || 'Base Page Here'}
+      <DisplaySection />
+      <ChatPages />
     </div>
   )
 }

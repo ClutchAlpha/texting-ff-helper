@@ -2,6 +2,7 @@
     height: 80%;
     background: darkred;
     display: flex;
+    flex-direction: row;
     align-items: center;
     justify-content: center;
 }
