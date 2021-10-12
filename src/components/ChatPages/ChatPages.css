@@ -5,6 +5,17 @@
     align-items: center;
     justify-content: center;
     border-left: dimgray 2px solid;
-    overflow: scroll;
-    white-space: nowrap;
+
+    /* Horizontal Scrolling */
+    flex-direction: column;
+    flex-wrap: wrap;
+    overflow-x: auto;
+
+    /* Remove Scrollbar */
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
+}
+
+.chatPages::-webkit-scrollbar {
+    display: none;
 }
