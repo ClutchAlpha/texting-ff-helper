@@ -1,0 +1,22 @@
+{
+  "files": {
+    "main.css": "/texting-ff-helper/static/css/main.e7c7b15a.chunk.css",
+    "main.js": "/texting-ff-helper/static/js/main.7b4e52e2.chunk.js",
+    "main.js.map": "/texting-ff-helper/static/js/main.7b4e52e2.chunk.js.map",
+    "runtime-main.js": "/texting-ff-helper/static/js/runtime-main.6eb24bd2.js",
+    "runtime-main.js.map": "/texting-ff-helper/static/js/runtime-main.6eb24bd2.js.map",
+    "static/js/2.eae8cc4c.chunk.js": "/texting-ff-helper/static/js/2.eae8cc4c.chunk.js",
+    "static/js/2.eae8cc4c.chunk.js.map": "/texting-ff-helper/static/js/2.eae8cc4c.chunk.js.map",
+    "static/js/3.aa5fe212.chunk.js": "/texting-ff-helper/static/js/3.aa5fe212.chunk.js",
+    "static/js/3.aa5fe212.chunk.js.map": "/texting-ff-helper/static/js/3.aa5fe212.chunk.js.map",
+    "index.html": "/texting-ff-helper/index.html",
+    "static/css/main.e7c7b15a.chunk.css.map": "/texting-ff-helper/static/css/main.e7c7b15a.chunk.css.map",
+    "static/js/2.eae8cc4c.chunk.js.LICENSE.txt": "/texting-ff-helper/static/js/2.eae8cc4c.chunk.js.LICENSE.txt"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.6eb24bd2.js",
+    "static/js/2.eae8cc4c.chunk.js",
+    "static/css/main.e7c7b15a.chunk.css",
+    "static/js/main.7b4e52e2.chunk.js"
+  ]
+}
