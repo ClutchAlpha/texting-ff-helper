@@ -1,6 +1,7 @@
-import React, {Dispatch, SetStateAction} from 'react'
+import React, {Dispatch, SetStateAction, useState} from 'react'
 import './Header.css'
 import {Chat, User} from "../../types/utils";
+import AddUserDialog from "./AddUserDialog";
 
 type HeaderProps = {
   title?: string
@@ -18,41 +19,32 @@ const Header: React.FC<HeaderProps> = ({
                                          setTotalUsers
                                        }) => {
   
-  const handleAddUser = () => {
-    const newUser: User = {
-      name: `User${Math.floor(Math.random() * 1000)}`
-    }
-    
-    setTotalUsers([...totalUsers, newUser])
-  }
-  
-  const handleAddChat = () => {
-    const newChat: Chat = {
-      groupName: 'New Group',
-      users: [...totalUsers]
-    }
-    setChats([...chats, newChat])
-  }
-  
-  console.log('=====> totalUsers.length', totalUsers.length > 0)
-  const addChatDisabled = totalUsers.length < 1
-  console.log('=====> addChatDisabled', addChatDisabled)
+  const [userModalOpen, setUserModalOpen] = useState<boolean>(false)
+  const [chatModalOpen, setChatModalOpen] = useState<boolean>(false)
+  const [userListModalOpen, setUserListModalOpen] = useState<boolean>(false)
+
   return (
     <div className={'header'}>
       {title || 'Header Here'}
       <button
         className={'addButton'}
-        onClick={handleAddChat}
-        disabled={addChatDisabled}
+        onClick={() => setChatModalOpen(true)}
+        disabled={totalUsers.length < 1}
       >
         {'Add Chat'}
       </button>
       <button
         className={'addButton'}
-        onClick={handleAddUser}
+        onClick={() => setUserModalOpen(true)}
       >
         {'Add User'}
       </button>
+      <AddUserDialog
+        open={userModalOpen}
+        setOpen={setUserModalOpen}
+        totalUsers={totalUsers}
+        setTotalUsers={setTotalUsers}
+      />
     </div>
   )
 }
