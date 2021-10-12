@@ -13,7 +13,11 @@ const Header: React.FC<HeaderProps> = ({title, chats, setChats}) => {
   const handleAddChat = () => {
     const newChat: Chat = {
       groupName: 'New Group',
-      users: []
+      users: [
+        {name: 'someName'},
+        {name: 'otherName'},
+        {name: 'thirdName'},
+      ]
     }
     setChats([...chats, newChat])
   }

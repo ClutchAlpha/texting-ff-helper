@@ -9,7 +9,12 @@ type SingleChatProps = {
 const SingleChat: React.FC<SingleChatProps> = ({chat}) => {
   return (
     <div className={'singleChat'}>
-      {chat.groupName}
+      <div className={'groupName'}>
+        {chat.groupName}
+      </div>
+      {
+        chat.users.map(x => <div>{` - ${x.name}`}</div>)
+      }
     </div>
   )
 }
