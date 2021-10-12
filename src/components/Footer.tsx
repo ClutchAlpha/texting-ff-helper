@@ -1,4 +1,5 @@
 import React from 'react'
+import './Footer.css'
 
 type FooterProps = {
   title?: string;
@@ -6,7 +7,7 @@ type FooterProps = {
 
 const Footer: React.FC<FooterProps> = ({title}) => {
   return (
-    <div>
+    <div className={'footer'}>
       {title || 'Footer Here'}
     </div>
   )

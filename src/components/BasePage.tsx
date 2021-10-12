@@ -1,4 +1,5 @@
 import React from 'react'
+import './BasePage.css'
 
 type BasePageProps = {
   title?: string
@@ -6,7 +7,7 @@ type BasePageProps = {
 
 const BasePage: React.FC<BasePageProps> = ({title}) => {
   return (
-    <div>
+    <div className={'basePage'}>
       {title || 'Base Page Here'}
     </div>
   )

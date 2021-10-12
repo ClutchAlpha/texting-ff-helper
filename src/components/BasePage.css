@@ -1,0 +1,7 @@
+.basePage {
+    height: 80%;
+    background: darkred;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}

@@ -6,10 +6,10 @@ import BasePage from "./BasePage";
 
 function App() {
   return (
-    <div className="App">
-      <Header/>
-      <BasePage/>
-      <Footer/>
+    <div className={'App'}>
+      <Header title={'Texing FF Helper'}/>
+      <BasePage title={'Coming Soon!'}/>
+      <Footer title={'Created by Yours Truly'}/>
     </div>
   );
 }
