@@ -23,7 +23,7 @@ const SingleChat: React.FC<SingleChatProps> = ({chat, totalUsers}) => {
         <input
           placeholder={'Text Goes Here'}
         />
-        <UserSelect totalUsers={totalUsers}/>
+        <UserSelect chatUsers={chat.users}/>
       </div>
     </div>
   )
