@@ -34,11 +34,25 @@ const Header: React.FC<HeaderProps> = ({
     setChats([...chats, newChat])
   }
   
+  console.log('=====> totalUsers.length', totalUsers.length > 0)
+  const addChatDisabled = totalUsers.length < 1
+  console.log('=====> addChatDisabled', addChatDisabled)
   return (
     <div className={'header'}>
       {title || 'Header Here'}
-      <button onClick={handleAddChat}>{'Add Chat'}</button>
-      <button onClick={handleAddUser}>{'Add User'}</button>
+      <button
+        className={'addButton'}
+        onClick={handleAddChat}
+        disabled={addChatDisabled}
+      >
+        {'Add Chat'}
+      </button>
+      <button
+        className={'addButton'}
+        onClick={handleAddUser}
+      >
+        {'Add User'}
+      </button>
     </div>
   )
 }
