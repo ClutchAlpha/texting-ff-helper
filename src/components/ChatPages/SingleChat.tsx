@@ -3,6 +3,7 @@ import './SingleChat.css'
 import {Chat, User} from "../../types/utils";
 import UserSelect from "./UserSelect";
 import {OutlinedInput} from "@mui/material";
+import MessageRow from "./MessageRow";
 
 type SingleChatProps = {
   chat: Chat
@@ -38,7 +39,6 @@ const SingleChat: React.FC<SingleChatProps> = ({chat, totalUsers}) => {
   
   useEffect(scrollToBottom, [chat.messages.length]);
   
-  
   return (
     <div className={'singleChat'}>
       <div className={'groupName'}>
@@ -46,13 +46,13 @@ const SingleChat: React.FC<SingleChatProps> = ({chat, totalUsers}) => {
       </div>
       <div className={'chatMessages'}>
         {
-          chat.messages.map((x, index) => {
-            const senderPrefix = x.sender?.name ? `${x.sender.name}: ` : ''
-            return (
-              <div key={`${chat.groupName}-${index}`} className={'chatMessage'}>
-                {`${senderPrefix}${x.text}`}
-              </div>
-            );
+          chat.messages.map((message, index) => {
+            return <MessageRow
+              message={message}
+              index={index}
+              chatUsers={chat.users}
+              groupName={chat.groupName}
+            />
           })
         }
         <div ref={messagesEndRef}/>
