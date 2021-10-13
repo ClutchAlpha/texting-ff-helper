@@ -16,7 +16,7 @@ const SingleChat: React.FC<SingleChatProps> = ({chat, totalUsers}) => {
       </div>
       <div className={'userNames'}>
         {
-          chat.users.map(x => <div>{` - ${x.name}`}</div>)
+          chat.users.map(x => <div key={x.name}>{` - ${x.name}`}</div>)
         }
       </div>
       <div className={'chatInputWrapper'}>

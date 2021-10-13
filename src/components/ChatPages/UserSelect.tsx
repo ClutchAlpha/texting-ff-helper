@@ -29,7 +29,7 @@ const UserSelect: React.FC<UserSelectProps> = ({chatUsers}) => {
         >
           {
             chatUsers.map(user => (
-                <MenuItem value={user.name}>
+                <MenuItem key={user.name} value={user.name}>
                   {user.name}
                 </MenuItem>
               )

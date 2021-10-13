@@ -13,7 +13,7 @@ const ChatPages: React.FC<ChatPagesProps> = ({chats, totalUsers}) => {
     <div className={'chatPages'}>
       {
         chats.length > 0
-          ? chats.map(chat => <SingleChat chat={chat} totalUsers={totalUsers}/>)
+          ? chats.map(chat => <SingleChat key={chat.groupName} chat={chat} totalUsers={totalUsers}/>)
           : 'No Chats Available'
       }
     </div>

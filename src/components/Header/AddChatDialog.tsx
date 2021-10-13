@@ -3,6 +3,7 @@ import {Chat, User} from "../../types/utils";
 import './AddChatDialog.css'
 import {Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, TextField} from "@mui/material";
 import ChatUserSelect from "./ChatUserSelect";
+import ChatCreatorSelect from "./ChatCreatorSelect";
 
 type AddChatDialogProps = {
   chats: Chat[]
@@ -17,7 +18,7 @@ const AddChatDialog: React.FC<AddChatDialogProps> = ({
                                                      }) => {
   const [chatModalOpen, setChatModalOpen] = useState<boolean>(false)
   const [groupUsers, setGroupUsers] = useState<string[]>([])
-  const [groupCreator, setGroupCreator] = useState<User>()
+  const [groupCreator, setGroupCreator] = useState<string>('')
   const [groupName, setGroupName] = useState<string>('')
   
   const userMap: Record<string, User> = totalUsers.reduce((acc, user) => ({ ...acc, [user.name]: user}), {})
@@ -31,7 +32,7 @@ const AddChatDialog: React.FC<AddChatDialogProps> = ({
       const newChat: Chat = {
         groupName,
         users: groupUsers.map(name => userMap[name]),
-        creator: groupCreator
+        creator: userMap[groupCreator]
       }
       setChats([
         ...chats,
@@ -55,7 +56,7 @@ const AddChatDialog: React.FC<AddChatDialogProps> = ({
         <DialogTitle>
           {'New Chat'}
         </DialogTitle>
-        <DialogContent>
+        <DialogContent className={'dialogContent'}>
           <DialogContentText>
             Add users, give it a name, and begin a new chat!
           </DialogContentText>
@@ -75,6 +76,15 @@ const AddChatDialog: React.FC<AddChatDialogProps> = ({
             groupUsers={groupUsers}
             setGroupUsers={setGroupUsers}
           />
+          {
+            groupUsers.length > 0 &&
+            <ChatCreatorSelect
+              groupCreator={groupCreator}
+              setGroupCreator={setGroupCreator}
+              groupUsers={groupUsers}
+            />
+          }
+          
         </DialogContent>
         <DialogActions>
           <Button onClick={handleSubmit}>
