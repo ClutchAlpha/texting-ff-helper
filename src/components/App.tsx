@@ -1,21 +1,20 @@
-import React, {useState} from 'react';
+import React from 'react';
 import './App.css';
-import {ApplicationUser } from "../types/utils";
-import {useFetchUserData} from "../hooks/useFetchUserData";
 import AuthenticatedPage from "./AuthenticatedPage";
 import UnauthenticatedPage from "./UnauthenticatedPage/UnauthenticatedPage";
+import {useRecoilState} from "recoil";
+import {appUserState} from "../recoil/appUser";
 
 function App() {
   
-  const [appUser, setAppUser] = useState<ApplicationUser>()
-  const {data} = useFetchUserData(appUser)
+  const [appUser] = useRecoilState(appUserState)
   
   return (
     <div className={'App'}>
       {
-        data?.isAuthenticated
+        appUser
           ? <AuthenticatedPage/>
-          : <UnauthenticatedPage setAppUser={setAppUser}/>
+          : <UnauthenticatedPage/>
       }
     </div>
   );

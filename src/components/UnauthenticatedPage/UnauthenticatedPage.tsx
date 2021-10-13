@@ -5,15 +5,14 @@ import LoginSignupButtons from "./LoginSignupButtons";
 import LoginPanelHeader from "./LoginPanelHeader";
 import LoginSignupFormFields from "./LoginSignupFormFields";
 import {getUser, hashPassword, postUser} from "../../utils/mongoUtils";
+import {appUserState} from "../../recoil/appUser";
+import {useRecoilState} from "recoil";
 
 export type FormState = 'login' | 'signup'
 
-type UnauthenticatedPageProps = {
-  setAppUser: Dispatch<SetStateAction<ApplicationUser | undefined>>
-}
-
-const UnauthenticatedPage: React.FC<UnauthenticatedPageProps> = ({setAppUser}) => {
+const UnauthenticatedPage: React.FC = () => {
   
+  const [appUser, setAltAppUser] = useRecoilState(appUserState)
   const [formState, setFormState] = useState<FormState>('login')
   const [userName, setUserName] = useState<string>('')
   const [password, setPassword] = useState<string>('')
@@ -25,50 +24,35 @@ const UnauthenticatedPage: React.FC<UnauthenticatedPageProps> = ({setAppUser}) =
     setVerifyPassword('')
   }
   
-  const attemptSignup = () => {
-    if (userName && password) {
-      getUser(userName)
-        .then(response => {
-          return response.users.length > 0
-        })
-        .then(userExists => {
-          if (!userExists) {
-            postUser(userName, password)
-              .then(response => {
-                console.log(response)
-              })
-            setAppUser({userName})
-          } else {
-            clearFields()
-          }
-        })
+  const attemptSignup = async () => {
+    if (userName && password){
+      const checkUserResponse = await getUser(userName)
+      const users = checkUserResponse.users
+      if (users.length === 0){
+        await postUser(userName, password)
+        setAltAppUser({userName, _id: 'someId'})
+      }
     }
-    return true
+    clearFields()
   }
   
-  const attemptLogin = () => {
-    getUser(userName)
-      .then(response => {
-        return [response.users.length > 0, response.users]
-      })
-      .then(([userExists, users]) => {
-        if (userExists){
-          if (hashPassword(userName, password) === users[0].passwordHash){
-            setAppUser({userName})
-          } else {
-            clearFields()
-          }
-        } else {
-          clearFields()
-        }
-      })
+  const attemptLogin = async () => {
+    const checkUserResponse = await getUser(userName)
+    const users = checkUserResponse.users
+    if (users.length > 0) {
+      const targetUser = users[0]
+      if (hashPassword(userName, password) === targetUser.passwordHash) {
+        setAltAppUser({userName, _id: 'someId'})
+      }
+    }
+    clearFields()
   }
   
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     if (formState === 'login') {
-      return attemptLogin()
+      return await attemptLogin()
     } else {
-      return attemptSignup()
+      return await attemptSignup()
     }
   }
   

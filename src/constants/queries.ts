@@ -1,9 +1,10 @@
 export const queryKeys = {
-  userData: 'userData'
+  userData: 'userData',
+  chats: 'chats'
 }
 
 export const queryOptions = {
   refetchOnMount: false,
   refetchOnReconnect: false,
-  reftchOnWindowFocus: true
+  refetchOnWindowFocus: false
 }

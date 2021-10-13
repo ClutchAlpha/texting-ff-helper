@@ -7,6 +7,7 @@ import {Chat, User} from "../types/utils";
 const AuthenticatedPage: React.FC = () => {
   const [chats, setChats] = useState<Chat[]>([])
   const [totalUsers, setTotalUsers] = useState<User[]>([])
+  
   return (
     <>
       <Header

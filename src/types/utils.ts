@@ -15,5 +15,6 @@ export type Message = {
 }
 
 export type ApplicationUser = {
+  _id: string
   userName: string
 }
