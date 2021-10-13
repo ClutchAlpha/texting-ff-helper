@@ -11,13 +11,17 @@ const ColorButton = styled(Button)<ButtonProps>(() => ({
 }));
 
 type LoginSignupButtonsProps = {
-  formState: FormState,
+  formState: FormState
   setFormState: Dispatch<SetStateAction<FormState>>
+  handleSubmit: () => void,
+  submitEnabled: boolean
 }
 
 const LoginSignupButtons: React.FC<LoginSignupButtonsProps> = ({
                                                                  formState,
-                                                                 setFormState
+                                                                 setFormState,
+                                                                 submitEnabled,
+                                                                 handleSubmit
                                                                }) => {
   
   const handleUpdateFormState = (
@@ -41,7 +45,11 @@ const LoginSignupButtons: React.FC<LoginSignupButtonsProps> = ({
           {'Sign Up'}
         </ToggleButton>
       </ToggleButtonGroup>
-      <ColorButton variant="contained">
+      <ColorButton
+        variant="contained"
+        onClick={handleSubmit}
+        disabled={!submitEnabled}
+      >
         {'Submit'}
       </ColorButton>
     </div>

@@ -4,10 +4,13 @@ import {Grid, TextField} from '@mui/material';
 import './LoginSignupFormFields.css'
 
 type LoginSignupFormFieldsProps = {
-  username: string
+  userNameValid: boolean
+  userName: string
   setUserName: Dispatch<SetStateAction<string>>
+  passwordValid: boolean
   password: string
   setPassword: Dispatch<SetStateAction<string>>
+  verifyValid: boolean
   verifyPassword: string
   setVerifyPassword: Dispatch<SetStateAction<string>>
   formState: FormState
@@ -15,11 +18,14 @@ type LoginSignupFormFieldsProps = {
 
 const LoginSignupFormFields: React.FC<LoginSignupFormFieldsProps> = ({
                                                                        setUserName,
-                                                                       username,
+                                                                       userName,
+                                                                       userNameValid,
                                                                        setPassword,
                                                                        password,
+                                                                       passwordValid,
                                                                        setVerifyPassword,
                                                                        verifyPassword,
+                                                                       verifyValid,
                                                                        formState
                                                                      }) => {
   const handleChangeUsername = (event: ChangeEvent<HTMLInputElement>) => {
@@ -34,10 +40,6 @@ const LoginSignupFormFields: React.FC<LoginSignupFormFieldsProps> = ({
     setVerifyPassword(event.target.value)
   }
   
-  const usernameValid = username?.match(/^[A-Za-z]\w{5,25}$/) !== null
-  const passwordValid = password?.match(/^[A-Za-z]\w{5,25}$/) !== null
-  const verifyValid = password === verifyPassword
-  
   return (
     <div className={'gridWrapper'}>
       <Grid container direction={'column'} spacing={2}>
@@ -46,9 +48,10 @@ const LoginSignupFormFields: React.FC<LoginSignupFormFieldsProps> = ({
             className={'loginSignupFormField'}
             required
             id={'outlined-required'}
+            value={userName}
             label={'Required'}
-            error={!usernameValid}
-            helperText={usernameValid ? '' : 'Username must be alphanumeric, 5-25 characters'}
+            error={!userNameValid}
+            helperText={userNameValid ? '' : 'Username must be alphanumeric, 5-25 characters'}
             placeholder={'Enter Username'}
             onChange={handleChangeUsername}
           />
@@ -59,6 +62,7 @@ const LoginSignupFormFields: React.FC<LoginSignupFormFieldsProps> = ({
             type={'password'}
             id={'password'}
             label={'Password'}
+            value={password}
             error={!passwordValid}
             helperText={passwordValid ? '' : 'Password must be alphanumeric, 5-25 characters'}
             placeholder={'Enter Password'}
@@ -73,6 +77,7 @@ const LoginSignupFormFields: React.FC<LoginSignupFormFieldsProps> = ({
               type={'password'}
               id={'verify-password'}
               label={'Verify Password'}
+              value={verifyPassword}
               error={!verifyValid}
               helperText={verifyValid ? '' : 'Password do not match'}
               placeholder={'Verify Password'}
