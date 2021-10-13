@@ -39,7 +39,10 @@ const AddChatDialog: React.FC<AddChatDialogProps> = ({
       const newChat: Chat = {
         groupName,
         users: groupUsers.map(name => userMap[name]),
-        creator: userMap[groupCreator]
+        creator: userMap[groupCreator],
+        messages: [
+          {text: `${groupName} created by ${groupCreator}`}
+        ]
       }
       setChats([
         ...chats,
