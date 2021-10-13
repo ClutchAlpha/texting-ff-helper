@@ -38,7 +38,7 @@ const UserListModal: React.FC<UserListModalProps> = ({totalUsers, chats}) => {
               totalUsers.map(user => {
                 const userChats = chats.filter(chat => chat.users.map(x => x.name).includes(user.name)).length
                 return (
-                  <ListItem>
+                  <ListItem key={user.name}>
                     <ListItemText
                       primary={user.name}
                       secondary={`Active user in ${userChats} chats`}
