@@ -25,8 +25,8 @@ const LoadDataDialog: React.FC<LoadDataDialogProps> = ({
     getChapter(chapterId)
       .then((chapter: ChapterResponse[]) => {
         if (chapter.length > 0) {
-          setTotalUsers(chapter[0].users)
-          setChats(chapter[0].chats)
+          setTotalUsers(chapter[chapter.length - 1].users)
+          setChats(chapter[chapter.length - 1].chats)
         }
       })
       .then(() => {
