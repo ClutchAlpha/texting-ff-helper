@@ -15,8 +15,11 @@ type LoginSignupFormFieldsProps = {
 
 const LoginSignupFormFields: React.FC<LoginSignupFormFieldsProps> = ({
                                                                        setUserName,
+                                                                       username,
                                                                        setPassword,
+                                                                       password,
                                                                        setVerifyPassword,
+                                                                       verifyPassword,
                                                                        formState
                                                                      }) => {
   const handleChangeUsername = (event: ChangeEvent<HTMLInputElement>) => {
@@ -31,6 +34,10 @@ const LoginSignupFormFields: React.FC<LoginSignupFormFieldsProps> = ({
     setVerifyPassword(event.target.value)
   }
   
+  const usernameValid = username?.match(/^[A-Za-z]\w{5,25}$/) !== null
+  const passwordValid = password?.match(/^[A-Za-z]\w{5,25}$/) !== null
+  const verifyValid = password === verifyPassword
+  
   return (
     <div className={'gridWrapper'}>
       <Grid container direction={'column'} spacing={2}>
@@ -40,6 +47,8 @@ const LoginSignupFormFields: React.FC<LoginSignupFormFieldsProps> = ({
             required
             id={'outlined-required'}
             label={'Required'}
+            error={!usernameValid}
+            helperText={usernameValid ? '' : 'Username must be alphanumeric, 5-25 characters'}
             placeholder={'Enter Username'}
             onChange={handleChangeUsername}
           />
@@ -50,6 +59,8 @@ const LoginSignupFormFields: React.FC<LoginSignupFormFieldsProps> = ({
             type={'password'}
             id={'password'}
             label={'Password'}
+            error={!passwordValid}
+            helperText={passwordValid ? '' : 'Password must be alphanumeric, 5-25 characters'}
             placeholder={'Enter Password'}
             onChange={handleChangePassword}
           />
@@ -62,6 +73,8 @@ const LoginSignupFormFields: React.FC<LoginSignupFormFieldsProps> = ({
               type={'password'}
               id={'verify-password'}
               label={'Verify Password'}
+              error={!verifyValid}
+              helperText={verifyValid ? '' : 'Password do not match'}
               placeholder={'Verify Password'}
               onChange={handleChangeVerifyPassword}
             />
