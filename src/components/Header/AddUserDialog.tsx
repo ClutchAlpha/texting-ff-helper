@@ -1,20 +1,15 @@
-import React, {ChangeEvent, Dispatch, SetStateAction, useState} from 'react'
+import React, {ChangeEvent, useState} from 'react'
 import {Button, Dialog, DialogActions, DialogContent, DialogTitle, TextField} from "@mui/material";
 import {User} from "../../types/utils";
 import './AddUserDialog.css'
+import {useRecoilState} from "recoil";
+import {usersState} from "../../recoil/users";
 
-type AddUserDialogProps = {
-  totalUsers: User[]
-  setTotalUsers: Dispatch<SetStateAction<User[]>>
-}
-
-const AddUserDialog: React.FC<AddUserDialogProps> = ({
-                                                       setTotalUsers,
-                                                       totalUsers
-                                                     }) => {
+const AddUserDialog: React.FC = () => {
   
   const [userModalOpen, setUserModalOpen] = useState<boolean>(false)
   const [newUserName, setNewUserName] = useState<string>('')
+  const [totalUsers, setTotalUsers] = useRecoilState(usersState)
   
   const handleChangeUserName = (event: ChangeEvent<HTMLInputElement>) => {
     setNewUserName(event.target.value)

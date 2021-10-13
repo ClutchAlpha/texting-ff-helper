@@ -4,29 +4,36 @@ import {Chat, User} from "../../types/utils";
 import UserSelect from "./UserSelect";
 import {OutlinedInput} from "@mui/material";
 import MessageRow from "./MessageRow";
+import { useSetRecoilState} from "recoil";
+import { updateIndividualChatSelector} from "../../recoil/chats";
 
 type SingleChatProps = {
   chat: Chat
-  totalUsers: User[]
 }
 
-const SingleChat: React.FC<SingleChatProps> = ({chat, totalUsers}) => {
+const SingleChat: React.FC<SingleChatProps> = ({chat}) => {
   
   const [currentUser, setCurrentUser] = useState<User>(chat.users[0])
   const [currentMessage, setCurrentMessage] = useState<string>('')
+  const updateIndividualChat = useSetRecoilState(updateIndividualChatSelector)
   
   const handleUpdateMessage = (event: ChangeEvent<HTMLInputElement>) => {
     setCurrentMessage(event.target.value)
   }
   
   const handleSubmit = () => {
-    chat.messages = [
-      ...chat.messages,
-      {
-        text: currentMessage,
-        sender: currentUser
-      }
-    ]
+    updateIndividualChat(
+      [{
+        ...chat,
+        messages: [
+          ...chat.messages,
+          {
+            text: currentMessage,
+            sender: currentUser
+          }
+        ]
+      }]
+    )
     
     setCurrentMessage('')
   }
@@ -63,7 +70,7 @@ const SingleChat: React.FC<SingleChatProps> = ({chat, totalUsers}) => {
           value={currentMessage}
           onChange={handleUpdateMessage}
           onKeyPress={(ev) => {
-            if (ev.key === 'Enter') {
+            if (ev.key === 'Enter' && currentMessage) {
               handleSubmit()
               ev.preventDefault()
             }

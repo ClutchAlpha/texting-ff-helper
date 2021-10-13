@@ -1,25 +1,21 @@
-import React, {ChangeEvent, Dispatch, SetStateAction, useState} from 'react'
+import React, {ChangeEvent, useState} from 'react'
 import {Chat, User} from "../../types/utils";
 import './AddChatDialog.css'
 import {Button, Dialog, DialogActions, DialogContent, DialogContentText, TextField} from "@mui/material";
 import ChatUserSelect from "./ChatUserSelect";
 import ChatCreatorSelect from "./ChatCreatorSelect";
+import {useRecoilState, useRecoilValue} from "recoil";
+import {usersState} from "../../recoil/users";
+import {chatsState} from "../../recoil/chats";
 
-type AddChatDialogProps = {
-  chats: Chat[]
-  setChats: Dispatch<SetStateAction<Chat[]>>
-  totalUsers: User[]
-}
-
-const AddChatDialog: React.FC<AddChatDialogProps> = ({
-                                                       chats,
-                                                       setChats,
-                                                       totalUsers
-                                                     }) => {
+const AddChatDialog: React.FC = () => {
   const [chatModalOpen, setChatModalOpen] = useState<boolean>(false)
   const [groupUsers, setGroupUsers] = useState<string[]>([])
   const [groupCreator, setGroupCreator] = useState<string>('')
   const [groupName, setGroupName] = useState<string>('')
+  
+  const totalUsers = useRecoilValue(usersState)
+  const [chats, setChats] = useRecoilState(chatsState)
   
   const userMap: Record<string, User> = totalUsers.reduce((acc, user) => ({ ...acc, [user.name]: user}), {})
   

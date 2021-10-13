@@ -1,21 +1,17 @@
 import React, {ChangeEvent, useState} from 'react'
 import './SaveDataDialog.css'
-import {Chat, User} from "../../types/utils";
 import {Button, Dialog, DialogActions, DialogContent, DialogTitle, TextField} from "@mui/material";
 import {postChapter} from "../../utils/mongoUtils";
+import {useRecoilValue} from "recoil";
+import {usersState} from "../../recoil/users";
+import {chatsState} from "../../recoil/chats";
 
-type SaveDataDialogProps = {
-  totalUsers: User[]
-  chats: Chat[]
-}
-
-const SaveDataDialog: React.FC<SaveDataDialogProps> = ({
-  totalUsers,
-  chats
-}) => {
+const SaveDataDialog: React.FC = () => {
   const [saveDataOpen, setSaveDataOpen] = useState<boolean>(false)
   const [chapterId, setChapterId] = useState<string>('')
   const [author, setAuthor] = useState<string>('')
+  const totalUsers = useRecoilValue(usersState)
+  const chats = useRecoilValue(chatsState)
   
   const handleSubmit = () => {
     postChapter(chapterId, author, totalUsers, chats)

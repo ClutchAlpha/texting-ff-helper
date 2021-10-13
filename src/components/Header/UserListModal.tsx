@@ -1,5 +1,4 @@
 import React, {useState} from 'react'
-import {Chat, User} from "../../types/utils";
 import './UserListModal.css'
 import {
   Button,
@@ -9,15 +8,15 @@ import {
   DialogTitle,
   List, ListItem, ListItemText,
 } from "@mui/material";
+import {useRecoilValue} from "recoil";
+import {usersState} from "../../recoil/users";
+import {chatsState} from "../../recoil/chats";
 
-type UserListModalProps = {
-  totalUsers: User[]
-  chats: Chat[]
-}
-
-const UserListModal: React.FC<UserListModalProps> = ({totalUsers, chats}) => {
+const UserListModal: React.FC = () => {
   
   const [userListModalOpen, setUserListModalOpen] = useState<boolean>(false)
+  const totalUsers = useRecoilValue(usersState)
+  const chats = useRecoilValue(chatsState)
   
   return (
     <>
@@ -40,6 +39,7 @@ const UserListModal: React.FC<UserListModalProps> = ({totalUsers, chats}) => {
                 return (
                   <ListItem key={user.name}>
                     <ListItemText
+                      key={user.name}
                       primary={user.name}
                       secondary={`Active user in ${userChats} chats`}
                     />

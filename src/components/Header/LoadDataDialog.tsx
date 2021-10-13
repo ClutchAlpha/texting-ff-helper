@@ -1,21 +1,18 @@
-import React, {ChangeEvent, Dispatch, SetStateAction, useState} from 'react'
-import {Chat, User} from "../../types/utils";
+import React, {ChangeEvent, useState} from 'react'
 import {Button, Dialog, DialogActions, DialogContent, DialogTitle, TextField} from "@mui/material";
 import {getChapter} from "../../utils/mongoUtils";
 import {ChapterResponse} from "../../types/mongoTypes";
 import './LoadDataDialog.css'
+import {useSetRecoilState} from "recoil";
+import {usersState} from "../../recoil/users";
+import {chatsState} from "../../recoil/chats";
 
-type LoadDataDialogProps = {
-  setTotalUsers: Dispatch<SetStateAction<User[]>>
-  setChats: Dispatch<SetStateAction<Chat[]>>
-}
-
-const LoadDataDialog: React.FC<LoadDataDialogProps> = ({
-                                                         setTotalUsers,
-                                                         setChats
-                                                       }) => {
+const LoadDataDialog: React.FC = () => {
   const [loadDataOpen, setLoadDataOpen] = useState<boolean>(false)
   const [chapterId, setChapterId] = useState<string>('')
+  const setTotalUsers = useSetRecoilState(usersState)
+  const setChats = useSetRecoilState(chatsState)
+  
   
   const handleChangeChapterId = (event: ChangeEvent<HTMLInputElement>) => {
     setChapterId(event.target.value)
