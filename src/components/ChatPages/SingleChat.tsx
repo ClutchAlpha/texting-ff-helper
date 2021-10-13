@@ -55,6 +55,7 @@ const SingleChat: React.FC<SingleChatProps> = ({chat}) => {
         {
           chat.messages.map((message, index) => {
             return <MessageRow
+              key={index}
               message={message}
               index={index}
               chatUsers={chat.users}
