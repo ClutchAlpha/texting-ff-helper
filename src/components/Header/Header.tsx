@@ -5,6 +5,7 @@ import AddUserDialog from "./AddUserDialog";
 import AddChatDialog from "./AddChatDialog";
 import UserListModal from "./UserListModal";
 import LoadDataDialog from "./LoadDataDialog";
+import SaveDataDialog from "./SaveDataDialog";
 
 type HeaderProps = {
   title?: string
@@ -41,6 +42,10 @@ const Header: React.FC<HeaderProps> = ({
       <LoadDataDialog
         setChats={setChats}
         setTotalUsers={setTotalUsers}
+      />
+      <SaveDataDialog
+        totalUsers={totalUsers}
+        chats={chats}
       />
     </div>
   )

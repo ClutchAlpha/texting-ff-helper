@@ -3,6 +3,7 @@ import {Chat, User} from "../../types/utils";
 import {Button, Dialog, DialogActions, DialogContent, DialogTitle, TextField} from "@mui/material";
 import {getChapter} from "../../utils/mongoUtils";
 import {ChapterResponse} from "../../types/mongoTypes";
+import './LoadDataDialog.css'
 
 type LoadDataDialogProps = {
   setTotalUsers: Dispatch<SetStateAction<User[]>>
