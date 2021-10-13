@@ -1,29 +1,22 @@
 import React, {useState} from 'react';
 import './App.css';
-import Header from "./Header/Header";
-import Footer from "./Footer/Footer";
-import BasePage from "./BasePage/BasePage";
-import {Chat, User} from "../types/utils";
+import {ApplicationUser } from "../types/utils";
+import {useFetchUserData} from "../hooks/useFetchUserData";
+import AuthenticatedPage from "./AuthenticatedPage";
+import UnauthenticatedPage from "./UnauthenticatedPage/UnauthenticatedPage";
 
 function App() {
   
-  const [chats, setChats] = useState<Chat[]>([])
-  const [totalUsers, setTotalUsers] = useState<User[]>([])
+  const [appUser, setAppUser] = useState<ApplicationUser>()
+  const {data} = useFetchUserData(appUser)
   
   return (
     <div className={'App'}>
-      <Header
-        title={'Texing FF Helper'}
-        setChats={setChats}
-        chats={chats}
-        totalUsers={totalUsers}
-        setTotalUsers={setTotalUsers}
-      />
-      <BasePage
-        chats={chats}
-        totalUsers={totalUsers}
-      />
-      <Footer title={'Created by Yours Truly'}/>
+      {
+        data?.isAuthenticated
+          ? <AuthenticatedPage/>
+          : <UnauthenticatedPage setAppUser={setAppUser}/>
+      }
     </div>
   );
 }

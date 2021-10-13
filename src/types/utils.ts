@@ -13,3 +13,7 @@ export type Message = {
   text: string
   sender?: User
 }
+
+export type ApplicationUser = {
+  userName: string
+}

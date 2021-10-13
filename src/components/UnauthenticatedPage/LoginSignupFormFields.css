@@ -1,0 +1,9 @@
+.loginSignupFormField {
+    margin: 16px
+}
+
+.gridWrapper {
+    display: flex;
+    height: 60%;
+    width: 100%;
+}
