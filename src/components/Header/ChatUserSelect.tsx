@@ -49,7 +49,7 @@ const ChatUserSelect: React.FC<ChatUserSelectProps> = ({totalUsers, groupUsers, 
   
   return (
     <FormControl sx={{ m: 1, width: 300 }}>
-      <InputLabel id="user-select-label">Chip</InputLabel>
+      <InputLabel id="user-select-label">Users</InputLabel>
       <Select
         labelId="user-select-label"
         id="user-select"

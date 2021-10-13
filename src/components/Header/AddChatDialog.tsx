@@ -1,7 +1,7 @@
 import React, {ChangeEvent, Dispatch, SetStateAction, useState} from 'react'
 import {Chat, User} from "../../types/utils";
 import './AddChatDialog.css'
-import {Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, TextField} from "@mui/material";
+import {Button, Dialog, DialogActions, DialogContent, DialogContentText, TextField} from "@mui/material";
 import ChatUserSelect from "./ChatUserSelect";
 import ChatCreatorSelect from "./ChatCreatorSelect";
 
@@ -27,6 +27,13 @@ const AddChatDialog: React.FC<AddChatDialogProps> = ({
     setGroupName(event.target.value)
   }
   
+  const handleCancel = () => {
+    setGroupCreator('')
+    setGroupName('')
+    setGroupUsers([])
+    setChatModalOpen(false)
+  }
+  
   const handleSubmit = () => {
     if (groupUsers.length > 0 && groupName && groupCreator){
       const newChat: Chat = {
@@ -38,10 +45,17 @@ const AddChatDialog: React.FC<AddChatDialogProps> = ({
         ...chats,
         newChat
       ])
+      setGroupCreator('')
+      setGroupName('')
+      setGroupUsers([])
     }
     
     setChatModalOpen(false)
   }
+  
+  const submitButtonEnabled: boolean = (
+    groupName !== '' && groupCreator !== '' && groupUsers.length > 0
+  )
   
   return (
     <>
@@ -50,12 +64,9 @@ const AddChatDialog: React.FC<AddChatDialogProps> = ({
         onClick={() => setChatModalOpen(true)}
         disabled={totalUsers.length < 1}
       >
-        {'Add Chat'}
+        {'New Chat'}
       </button>
       <Dialog onClose={() => setChatModalOpen(false)} open={chatModalOpen} className={'addChatDialog'}>
-        <DialogTitle>
-          {'New Chat'}
-        </DialogTitle>
         <DialogContent className={'dialogContent'}>
           <DialogContentText>
             Add users, give it a name, and begin a new chat!
@@ -87,8 +98,14 @@ const AddChatDialog: React.FC<AddChatDialogProps> = ({
           
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleSubmit}>
+          <Button
+            onClick={handleSubmit}
+            disabled={!submitButtonEnabled}
+          >
             {'Submit'}
+          </Button>
+          <Button onClick={handleCancel}>
+            {'Cancel'}
           </Button>
         </DialogActions>
       </Dialog>

@@ -1,5 +1,5 @@
 import React, {ChangeEvent, Dispatch, SetStateAction, useState} from 'react'
-import {Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, TextField} from "@mui/material";
+import {Button, Dialog, DialogActions, DialogContent, DialogTitle, TextField} from "@mui/material";
 import {User} from "../../types/utils";
 import './AddUserDialog.css'
 
@@ -39,12 +39,9 @@ const AddUserDialog: React.FC<AddUserDialogProps> = ({
       </button>
       <Dialog onClose={() => setUserModalOpen(false)} open={userModalOpen} className={'addUserDialog'}>
         <DialogTitle>
-          {'Add New User'}
+          {'Add a new name to update the list of total users in the story!'}
         </DialogTitle>
         <DialogContent>
-          <DialogContentText>
-            Add a new name to update the list of total users in the story!
-          </DialogContentText>
           <TextField
             onChange={handleChangeUserName}
             value={newUserName}

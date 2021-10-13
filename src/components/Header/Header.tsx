@@ -1,8 +1,9 @@
-import React, {Dispatch, SetStateAction, useState} from 'react'
+import React, {Dispatch, SetStateAction} from 'react'
 import './Header.css'
 import {Chat, User} from "../../types/utils";
 import AddUserDialog from "./AddUserDialog";
 import AddChatDialog from "./AddChatDialog";
+import UserListModal from "./UserListModal";
 
 type HeaderProps = {
   title?: string
@@ -20,8 +21,6 @@ const Header: React.FC<HeaderProps> = ({
                                          setTotalUsers
                                        }) => {
   
-  const [userListModalOpen, setUserListModalOpen] = useState<boolean>(false)
-
   return (
     <div className={'header'}>
       {title || 'Header Here'}
@@ -33,6 +32,10 @@ const Header: React.FC<HeaderProps> = ({
       <AddUserDialog
         totalUsers={totalUsers}
         setTotalUsers={setTotalUsers}
+      />
+      <UserListModal
+        totalUsers={totalUsers}
+        chats={chats}
       />
     </div>
   )
