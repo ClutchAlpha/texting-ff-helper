@@ -29,11 +29,3 @@
     overflow-y: auto;
     overflow-wrap: break-word;
 }
-
-.chatInputWrapper {
-    height: 10%;
-    width: 100%;
-    display: flex;
-    justify-content: space-around;
-    padding: 16px 0;
-}

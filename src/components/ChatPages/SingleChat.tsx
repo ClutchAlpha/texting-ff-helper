@@ -1,43 +1,14 @@
-import React, {ChangeEvent, useEffect, useRef, useState} from 'react'
+import React, { useEffect, useRef } from 'react'
 import './SingleChat.css'
-import {Chat, User} from "../../types/utils";
-import UserSelect from "./UserSelect";
-import {OutlinedInput} from "@mui/material";
+import {Chat} from "../../types/utils";
 import MessageRow from "./MessageRow";
-import { useSetRecoilState} from "recoil";
-import { updateIndividualChatSelector} from "../../recoil/chats";
+import SingleChatInputs from "./SingleChatInputs";
 
 type SingleChatProps = {
   chat: Chat
 }
 
 const SingleChat: React.FC<SingleChatProps> = ({chat}) => {
-  
-  const [currentUser, setCurrentUser] = useState<User>(chat.users[0])
-  const [currentMessage, setCurrentMessage] = useState<string>('')
-  const updateIndividualChat = useSetRecoilState(updateIndividualChatSelector)
-  
-  const handleUpdateMessage = (event: ChangeEvent<HTMLInputElement>) => {
-    setCurrentMessage(event.target.value)
-  }
-  
-  const handleSubmit = () => {
-    updateIndividualChat(
-      [{
-        ...chat,
-        messages: [
-          ...chat.messages,
-          {
-            text: currentMessage,
-            sender: currentUser
-          }
-        ]
-      }]
-    )
-    
-    setCurrentMessage('')
-  }
-  
   const messagesEndRef = useRef<null | HTMLDivElement>(null)
   
   const scrollToBottom = () => {
@@ -65,24 +36,7 @@ const SingleChat: React.FC<SingleChatProps> = ({chat}) => {
         }
         <div ref={messagesEndRef}/>
       </div>
-      <div className={'chatInputWrapper'}>
-        <OutlinedInput
-          placeholder="Message Here"
-          value={currentMessage}
-          onChange={handleUpdateMessage}
-          onKeyPress={(ev) => {
-            if (ev.key === 'Enter' && currentMessage) {
-              handleSubmit()
-              ev.preventDefault()
-            }
-          }}
-        />
-        <UserSelect
-          chatUsers={chat.users}
-          currentUser={currentUser}
-          setCurrentUser={setCurrentUser}
-        />
-      </div>
+      <SingleChatInputs chat={chat} />
     </div>
   )
 }
