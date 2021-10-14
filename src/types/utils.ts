@@ -9,6 +9,14 @@ export type User = {
   name: string;
 }
 
+export type Chapter = {
+  _id: string
+  chapterId: string
+  author: string
+  users: User[]
+  chats: Chat[]
+}
+
 export type Message = {
   text: string
   sender?: User
