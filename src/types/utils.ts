@@ -15,6 +15,9 @@ export type Message = {
 }
 
 export type ApplicationUser = {
-  _id: string
+  _id: {
+    '$oid': string
+  }
   userName: string
+  passwordHash: string
 }

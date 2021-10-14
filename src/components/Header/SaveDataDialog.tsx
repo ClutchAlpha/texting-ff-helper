@@ -5,34 +5,30 @@ import {postChapter} from "../../utils/mongoUtils";
 import {useRecoilValue} from "recoil";
 import {usersState} from "../../recoil/users";
 import {chatsState} from "../../recoil/chats";
+import {appUserState} from "../../recoil/appUser";
 
 const SaveDataDialog: React.FC = () => {
   const [saveDataOpen, setSaveDataOpen] = useState<boolean>(false)
   const [chapterId, setChapterId] = useState<string>('')
-  const [author, setAuthor] = useState<string>('')
   const totalUsers = useRecoilValue(usersState)
   const chats = useRecoilValue(chatsState)
+  const appUser = useRecoilValue(appUserState)
   
   const handleSubmit = () => {
-    postChapter(chapterId, author, totalUsers, chats)
-      .then(response => {
-        console.log(response)
-      })
-      .then(() => {
-        setChapterId('')
-        setAuthor('')
-        setSaveDataOpen(false)
-      })
+    if (appUser){
+      postChapter(chapterId, appUser, totalUsers, chats)
+        .then(response => {
+          console.log(response)
+        })
+        .then(() => {
+          setSaveDataOpen(false)
+        })
+    }
   }
   
   const handleChangeChapterId = (event: ChangeEvent<HTMLInputElement>) => {
     setChapterId(event.target.value)
   }
-  
-  const handleChangeAuthor = (event: ChangeEvent<HTMLInputElement>) => {
-    setAuthor(event.target.value)
-  }
-  
   
   return (
     <>
@@ -58,21 +54,10 @@ const SaveDataDialog: React.FC = () => {
             fullWidth
             variant="standard"
           />
-          <TextField
-            onChange={handleChangeAuthor}
-            value={author}
-            placeholder={'Author Name Here'}
-            autoFocus
-            margin="dense"
-            id="author"
-            label="Author Name"
-            fullWidth
-            variant="standard"
-          />
         </DialogContent>
         <DialogActions>
           {
-            chapterId && author &&
+            chapterId &&
             <Button onClick={handleSubmit}>
               {'Load Data'}
             </Button>

@@ -1,4 +1,4 @@
-import React, {Dispatch, SetStateAction, useState} from 'react'
+import React, { useState} from 'react'
 import './UnauthenticatedPage.css'
 import {ApplicationUser} from "../../types/utils";
 import LoginSignupButtons from "./LoginSignupButtons";
@@ -6,13 +6,13 @@ import LoginPanelHeader from "./LoginPanelHeader";
 import LoginSignupFormFields from "./LoginSignupFormFields";
 import {getUser, hashPassword, postUser} from "../../utils/mongoUtils";
 import {appUserState} from "../../recoil/appUser";
-import {useRecoilState} from "recoil";
+import { useSetRecoilState} from "recoil";
 
 export type FormState = 'login' | 'signup'
 
 const UnauthenticatedPage: React.FC = () => {
   
-  const [appUser, setAltAppUser] = useRecoilState(appUserState)
+  const setAltAppUser = useSetRecoilState(appUserState)
   const [formState, setFormState] = useState<FormState>('login')
   const [userName, setUserName] = useState<string>('')
   const [password, setPassword] = useState<string>('')
@@ -30,7 +30,10 @@ const UnauthenticatedPage: React.FC = () => {
       const users = checkUserResponse.users
       if (users.length === 0){
         await postUser(userName, password)
-        setAltAppUser({userName, _id: 'someId'})
+        const userResponse = await getUser(userName)
+        const userJson = userResponse.json()
+        const targetUser = userJson.users[0]
+        setAltAppUser(targetUser)
       }
     }
     clearFields()
@@ -40,9 +43,9 @@ const UnauthenticatedPage: React.FC = () => {
     const checkUserResponse = await getUser(userName)
     const users = checkUserResponse.users
     if (users.length > 0) {
-      const targetUser = users[0]
+      const targetUser: ApplicationUser = users[0]
       if (hashPassword(userName, password) === targetUser.passwordHash) {
-        setAltAppUser({userName, _id: 'someId'})
+        setAltAppUser(targetUser)
       }
     }
     clearFields()

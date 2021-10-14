@@ -3,33 +3,36 @@ import {Button, Dialog, DialogActions, DialogContent, DialogTitle, TextField} fr
 import {getChapter} from "../../utils/mongoUtils";
 import {ChapterResponse} from "../../types/mongoTypes";
 import './LoadDataDialog.css'
-import {useSetRecoilState} from "recoil";
+import {useRecoilValue, useSetRecoilState} from "recoil";
 import {usersState} from "../../recoil/users";
 import {chatsState} from "../../recoil/chats";
+import {appUserState} from "../../recoil/appUser";
 
 const LoadDataDialog: React.FC = () => {
   const [loadDataOpen, setLoadDataOpen] = useState<boolean>(false)
   const [chapterId, setChapterId] = useState<string>('')
   const setTotalUsers = useSetRecoilState(usersState)
   const setChats = useSetRecoilState(chatsState)
-  
+  const appUser = useRecoilValue(appUserState)
   
   const handleChangeChapterId = (event: ChangeEvent<HTMLInputElement>) => {
     setChapterId(event.target.value)
   }
   
   const handleSubmit = () => {
-    getChapter(chapterId)
-      .then((chapter: ChapterResponse[]) => {
-        if (chapter.length > 0) {
-          setTotalUsers(chapter[chapter.length - 1].users)
-          setChats(chapter[chapter.length - 1].chats)
-        }
-      })
-      .then(() => {
-        setChapterId('')
-        setLoadDataOpen(false)
-      })
+    if (appUser){
+      getChapter(chapterId, appUser._id.$oid)
+        .then((chapter: ChapterResponse[]) => {
+          if (chapter.length > 0) {
+            setTotalUsers(chapter[chapter.length - 1].users)
+            setChats(chapter[chapter.length - 1].chats)
+          }
+        })
+        .then(() => {
+          setChapterId('')
+          setLoadDataOpen(false)
+        })
+    }
   }
   
   return (
