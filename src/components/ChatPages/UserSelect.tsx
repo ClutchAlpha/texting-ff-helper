@@ -4,8 +4,8 @@ import {User} from '../../types/utils';
 import {FormControl, InputLabel, MenuItem, Select, SelectChangeEvent} from '@mui/material';
 
 type UserSelectProps = {
-  currentUser: User
-  setCurrentUser: Dispatch<SetStateAction<User>>
+  currentUser?: User
+  setCurrentUser: Dispatch<SetStateAction<User | undefined>>
   chatUsers: User[]
 }
 
@@ -24,7 +24,7 @@ const UserSelect: React.FC<UserSelectProps> = ({currentUser, setCurrentUser, cha
         <Select
           labelId='select-user-label'
           id='select-user'
-          value={currentUser.name}
+          value={currentUser?.name || 'No User Selected'}
           label='User'
           onChange={handleChangeUser}
         >

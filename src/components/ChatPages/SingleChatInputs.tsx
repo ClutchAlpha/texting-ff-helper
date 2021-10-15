@@ -2,14 +2,14 @@ import React, {ChangeEvent, Dispatch, SetStateAction, useState} from 'react'
 import {OutlinedInput} from "@mui/material";
 import UserSelect from "./UserSelect";
 import './SingleChatInputs.css'
-import {Chat, User} from "../../types/utils";
+import {Chat, Message, User} from "../../types/utils";
 import {useSetRecoilState} from "recoil";
 import {updateIndividualChatSelector} from "../../recoil/chats";
 
 type SingleChatInputsProps = {
   chat: Chat,
-  currentUser: User,
-  setCurrentUser: Dispatch<SetStateAction<User>>
+  currentUser?: User,
+  setCurrentUser: Dispatch<SetStateAction<User | undefined>>
 }
 
 const SingleChatInputs: React.FC<SingleChatInputsProps> = ({
@@ -25,6 +25,10 @@ const SingleChatInputs: React.FC<SingleChatInputsProps> = ({
   }
   
   const handleSubmit = () => {
+    const newMessage: Message = {text: currentMessage}
+    if (currentUser) {
+      newMessage.sender = currentUser
+    }
     updateIndividualChat(
       [{
         ...chat,
@@ -43,22 +47,30 @@ const SingleChatInputs: React.FC<SingleChatInputsProps> = ({
   
   return (
     <div className={'chatInputWrapper'}>
-      <OutlinedInput
-        placeholder="Message Here"
-        value={currentMessage}
-        onChange={handleUpdateMessage}
-        onKeyPress={(ev) => {
-          if (ev.key === 'Enter' && currentMessage) {
-            handleSubmit()
-            ev.preventDefault()
-          }
-        }}
-      />
-      <UserSelect
-        chatUsers={chat.users}
-        currentUser={currentUser}
-        setCurrentUser={setCurrentUser}
-      />
+      {
+        chat.users.length > 0
+          ? <>
+            <OutlinedInput
+              placeholder="Message Here"
+              value={currentMessage}
+              onChange={handleUpdateMessage}
+              onKeyPress={(ev) => {
+                if (ev.key === 'Enter' && currentMessage) {
+                  handleSubmit()
+                  ev.preventDefault()
+                }
+              }}
+            />
+            <UserSelect
+              chatUsers={chat.users}
+              currentUser={currentUser}
+              setCurrentUser={setCurrentUser}
+            />
+          </>
+          : <div>
+            {'Add Users to revive the chat!'}
+          </div>
+      }
     </div>
   )
 }

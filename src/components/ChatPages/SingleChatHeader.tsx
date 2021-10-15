@@ -1,18 +1,19 @@
-import React from 'react';
+import React, {Dispatch, SetStateAction} from 'react';
 import {Chat, User} from "../../types/utils";
 import ManageChatUsersDialog from "./ManageChatUsersDialog";
 import './SingleChatHeader.css'
 
 type SingleChatHeaderProps = {
   chat: Chat,
-  currentUser: User
+  currentUser?: User,
+  setCurrentUser: Dispatch<SetStateAction<User | undefined>>
 }
 
 const SingleChatHeader: React.FC<SingleChatHeaderProps> = ({
                                                              chat,
-                                                             currentUser
+                                                             currentUser,
+                                                             setCurrentUser
                                                            }) => {
-  
   
   return (
     <div className={'headerWrapper'}>
@@ -22,6 +23,7 @@ const SingleChatHeader: React.FC<SingleChatHeaderProps> = ({
       <ManageChatUsersDialog
         chat={chat}
         currentUser={currentUser}
+        setCurrentUser={setCurrentUser}
       />
     </div>
   )

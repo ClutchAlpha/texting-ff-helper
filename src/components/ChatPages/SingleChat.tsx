@@ -10,7 +10,7 @@ type SingleChatProps = {
 }
 
 const SingleChat: React.FC<SingleChatProps> = ({chat}) => {
-  const [currentUser, setCurrentUser] = useState<User>(chat.users[0])
+  const [currentUser, setCurrentUser] = useState<User | undefined>(chat.users[0])
   
   const messagesEndRef = useRef<null | HTMLDivElement>(null)
   
@@ -25,6 +25,7 @@ const SingleChat: React.FC<SingleChatProps> = ({chat}) => {
       <SingleChatHeader
         chat={chat}
         currentUser={currentUser}
+        setCurrentUser={setCurrentUser}
       />
       <div className={'chatMessages'}>
         {

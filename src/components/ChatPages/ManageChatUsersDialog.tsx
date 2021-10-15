@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {Dispatch, SetStateAction, useState} from 'react';
 import {Chat, User} from "../../types/utils";
 import PersonAddIcon from '@mui/icons-material/PersonAdd'
 import {Button, Dialog, DialogActions, DialogContent, DialogContentText} from "@mui/material";
@@ -9,15 +9,17 @@ import {updateIndividualChatSelector} from "../../recoil/chats";
 
 type ManageChatUsersDialogProps = {
   chat: Chat,
-  currentUser: User
+  currentUser?: User,
+  setCurrentUser: Dispatch<SetStateAction<User | undefined>>
 }
 
 const ManageChatUsersDialog: React.FC<ManageChatUsersDialogProps> = ({
                                                                        chat,
-                                                                       currentUser
+                                                                       currentUser,
+                                                                       setCurrentUser
                                                                      }) => {
   const totalUsers = useRecoilValue(usersState)
-  const userMap: Record<string, User> = totalUsers.reduce((acc, user) => ({ ...acc, [user.name]: user}), {})
+  const userMap: Record<string, User> = totalUsers.reduce((acc, user) => ({...acc, [user.name]: user}), {})
   const updateIndividualChat = useSetRecoilState(updateIndividualChatSelector)
   const [usersInChat, setUsersInChat] = useState<string[]>(chat.users.map(x => x.name))
   const [dialogOpen, setDialogOpen] = useState<boolean>(false)
@@ -25,28 +27,42 @@ const ManageChatUsersDialog: React.FC<ManageChatUsersDialogProps> = ({
   const handleApply = () => {
     const oldNames = chat.users.map(x => x.name)
     
-    const removedNames = oldNames.filter(x => !usersInChat.includes(x))
+    const removedNames = oldNames.filter(x => !usersInChat.includes(x) && x !== currentUser?.name)
     const addedNames = usersInChat.filter(x => !oldNames.includes(x))
     
-    let addedMessage, removedMessage
     let updatedMessages = chat.messages
     
-    if (removedNames.length > 0){
-      removedMessage = `${currentUser.name} removed ${removedNames.join(', ')}`
-      updatedMessages = [...updatedMessages, {text: removedMessage}]
+    if (!currentUser){
+      const joinedMessage = `${addedNames.join(', ')} joined the chat`
+      updatedMessages = [...updatedMessages, {text: joinedMessage}]
     }
     
-    if (addedNames.length > 0){
-      addedMessage = `${currentUser.name} added ${addedNames.join(', ')}`
-      updatedMessages = [...updatedMessages, {text: addedMessage}]
+    if (currentUser){
+      if (removedNames.length > 0) {
+        const removedMessage = `${currentUser?.name} removed ${removedNames.join(', ')}`
+        updatedMessages = [...updatedMessages, {text: removedMessage}]
+      }
+  
+      if (addedNames.length > 0) {
+        const addedMessage = `${currentUser?.name} added ${addedNames.join(', ')}`
+        updatedMessages = [...updatedMessages, {text: addedMessage}]
+      }
+  
+      if (!usersInChat.includes(currentUser?.name || '')) {
+        const leftMessage = `${currentUser?.name} left the chat`
+        updatedMessages = [...updatedMessages, {text: leftMessage}]
+      }
     }
+  
+    const newUsers = usersInChat.map(x => userMap[x]);
     
     updateIndividualChat([{
       ...chat,
-      users: usersInChat.map(x => userMap[x]),
+      users: newUsers,
       messages: updatedMessages
     }])
     
+    setCurrentUser(newUsers.length > 0 ? newUsers[0] : undefined)
     setDialogOpen(false)
   }
   
