@@ -1,4 +1,4 @@
-import React, {ChangeEvent, useState} from 'react'
+import React, {ChangeEvent, Dispatch, SetStateAction, useState} from 'react'
 import {OutlinedInput} from "@mui/material";
 import UserSelect from "./UserSelect";
 import './SingleChatInputs.css'
@@ -7,11 +7,16 @@ import {useSetRecoilState} from "recoil";
 import {updateIndividualChatSelector} from "../../recoil/chats";
 
 type SingleChatInputsProps = {
-  chat: Chat
+  chat: Chat,
+  currentUser: User,
+  setCurrentUser: Dispatch<SetStateAction<User>>
 }
 
-const SingleChatInputs: React.FC<SingleChatInputsProps> = ({chat}) => {
-  const [currentUser, setCurrentUser] = useState<User>(chat.users[0])
+const SingleChatInputs: React.FC<SingleChatInputsProps> = ({
+                                                             chat,
+                                                             currentUser,
+                                                             setCurrentUser
+                                                           }) => {
   const [currentMessage, setCurrentMessage] = useState<string>('')
   const updateIndividualChat = useSetRecoilState(updateIndividualChatSelector)
   

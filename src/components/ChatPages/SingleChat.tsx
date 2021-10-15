@@ -1,14 +1,17 @@
-import React, { useEffect, useRef } from 'react'
+import React, {useEffect, useRef, useState} from 'react'
 import './SingleChat.css'
-import {Chat} from "../../types/utils";
+import {Chat, User} from "../../types/utils";
 import MessageRow from "./MessageRow";
 import SingleChatInputs from "./SingleChatInputs";
+import SingleChatHeader from "./SingleChatHeader";
 
 type SingleChatProps = {
   chat: Chat
 }
 
 const SingleChat: React.FC<SingleChatProps> = ({chat}) => {
+  const [currentUser, setCurrentUser] = useState<User>(chat.users[0])
+  
   const messagesEndRef = useRef<null | HTMLDivElement>(null)
   
   const scrollToBottom = () => {
@@ -19,9 +22,10 @@ const SingleChat: React.FC<SingleChatProps> = ({chat}) => {
   
   return (
     <div className={'singleChat'}>
-      <div className={'groupName'}>
-        {chat.groupName}
-      </div>
+      <SingleChatHeader
+        chat={chat}
+        currentUser={currentUser}
+      />
       <div className={'chatMessages'}>
         {
           chat.messages.map((message, index) => {
@@ -36,7 +40,11 @@ const SingleChat: React.FC<SingleChatProps> = ({chat}) => {
         }
         <div ref={messagesEndRef}/>
       </div>
-      <SingleChatInputs chat={chat} />
+      <SingleChatInputs
+        chat={chat}
+        currentUser={currentUser}
+        setCurrentUser={setCurrentUser}
+      />
     </div>
   )
 }
