@@ -1,6 +1,7 @@
 import React from 'react';
 import {Chat, User} from "../../types/utils";
 import ManageChatUsersDialog from "./ManageChatUsersDialog";
+import './SingleChatHeader.css'
 
 type SingleChatHeaderProps = {
   chat: Chat,
